@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "devDependencies": {
+    "@discourse/lint-configs": "3.8.2",
+    "eslint": "10.6.0",
+    "prettier": "3.8.1",
+    "stylelint": "17.5.0"
+  },
+  "engines": {
+    "node": ">= 22",
+    "pnpm": "^12"
+  },
+  "packageManager": "pnpm@12.11.2"
+}

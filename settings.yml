@@ -2,10 +2,10 @@ topic_next_always_go_to_first_post:
   default: true
   type: bool
   description:
-    en: "If true, always navigate to first post of target Topic"
+    en: "Open the first post of the next topic. When disabled, use the next topic's usual link from the topic list."
 topic_next_categories:
   type: list
   list_type: category
   default: ""
   description:
-    en: "The categories that will include the Topic Next button.  Leave blank for all"
+    en: "Show the Next topic button in these categories. Leave blank to show it in all categories."
