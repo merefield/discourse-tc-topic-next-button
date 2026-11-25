@@ -13,6 +13,10 @@ module PageObjects
         has_css?(SELECTOR)
       end
 
+      def has_footer_link?
+        has_css?("#{SELECTOR}.--footer", text: "Next topic")
+      end
+
       def has_floating_link?
         has_css?(".mobile-tab-bar-visible .topic-navigation.with-topic-progress > #{SELECTOR}")
       end

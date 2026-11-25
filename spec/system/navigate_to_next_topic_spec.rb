@@ -10,6 +10,7 @@ RSpec.describe "Navigate to the next topic" do
 
   let!(:theme) { upload_theme_component }
   let(:category_page) { PageObjects::Pages::Category.new }
+  let(:nested_view) { PageObjects::Pages::NestedView.new }
   let(:topic_page) { PageObjects::Pages::Topic.new }
   let(:topic_list) { PageObjects::Components::TopicList.new }
   let(:next_button) { PageObjects::Components::TopicNextButton.new }
@@ -20,15 +21,30 @@ RSpec.describe "Navigate to the next topic" do
     sign_in(user)
   end
 
-  it "opens the first post of the next topic and hides the link at the end of the list" do
+  it "opens the next topic from below the opening post and hides the link at the end of the list" do
     category_page.visit(category)
     topic_list.visit_topic(first_topic)
 
+    expect(next_button).to have_footer_link
     next_button.click
 
     expect(page).to have_current_path(next_topic.relative_url)
     expect(topic_page).to have_topic_title(next_topic.title)
     expect(next_button).to have_no_next_topic_link
+  end
+
+  it "opens the next topic from below a nested topic on desktop" do
+    SiteSetting.nested_replies_enabled = true
+    SiteSetting.nested_replies_default = true
+
+    category_page.visit(category)
+    topic_list.visit_topic(first_topic)
+
+    expect(nested_view).to have_nested_view
+    expect(next_button).to have_footer_link
+    next_button.click
+
+    expect(topic_page).to have_topic_title(next_topic.title)
   end
 
   it "opens the next unread post from compact navigation when configured", mobile: true do
@@ -83,7 +99,7 @@ RSpec.describe "Navigate to the next topic" do
 
     category_page.visit(category)
     topic_list.visit_topic(first_topic)
-    expect(next_button).to have_next_topic_link
+    expect(next_button).to have_footer_link
 
     topic_page.post_by_number(linked_reply).click_link("related discussion")
 
