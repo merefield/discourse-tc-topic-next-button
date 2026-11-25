@@ -71,4 +71,23 @@ RSpec.describe "Navigate to the next topic" do
     expect(topic_page).to have_topic_title(first_topic.title)
     expect(next_button).to have_no_next_topic_link
   end
+
+  it "hides the link after following a post link to a topic outside the current list" do
+    outside_topic = Fabricate(:topic_with_op)
+    linked_reply =
+      Fabricate(
+        :post,
+        topic: first_topic,
+        raw: "Read this [related discussion](#{outside_topic.relative_url}) for more details.",
+      )
+
+    category_page.visit(category)
+    topic_list.visit_topic(first_topic)
+    expect(next_button).to have_next_topic_link
+
+    topic_page.post_by_number(linked_reply).click_link("related discussion")
+
+    expect(topic_page).to have_topic_title(outside_topic.title)
+    expect(next_button).to have_no_next_topic_link
+  end
 end

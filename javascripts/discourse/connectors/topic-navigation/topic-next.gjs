@@ -1,7 +1,11 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { settings, themePrefix } from "virtual:theme";
-import { nextTopicUrl, setTopicId } from "discourse/lib/topic-list-tracker";
+import {
+  nextTopicUrl,
+  previousTopicUrl,
+  setTopicId,
+} from "discourse/lib/topic-list-tracker";
 import { TOPIC_URL_REGEXP } from "discourse/lib/url";
 import dIcon from "discourse/ui-kit/helpers/d-icon";
 import { i18n } from "discourse-i18n";
@@ -23,12 +27,14 @@ export default class TopicNext extends Component {
   }
 
   async #loadNextUrl(topicId) {
-    setTopicId(topicId);
-
     try {
-      const url = await nextTopicUrl();
+      setTopicId(topicId);
+      const previous = previousTopicUrl();
+      setTopicId(topicId);
+      const [url, previousUrl] = await Promise.all([nextTopicUrl(), previous]);
 
-      if (!this.isDestroying && url) {
+      // The tracker returns the first list entry in both directions when the topic is absent.
+      if (!this.isDestroying && url && url !== previousUrl) {
         this.nextUrl = settings.topic_next_always_go_to_first_post
           ? url.replace(TOPIC_URL_REGEXP, "/t/$1/$2")
           : url;
