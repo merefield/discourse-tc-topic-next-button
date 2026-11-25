@@ -9,7 +9,7 @@ module PageObjects
         find(SELECTOR).click
       end
 
-      def has_link?
+      def has_next_topic_link?
         has_css?(SELECTOR)
       end
 
@@ -17,7 +17,7 @@ module PageObjects
         has_css?(".mobile-tab-bar-visible .topic-navigation.with-topic-progress > #{SELECTOR}")
       end
 
-      def has_no_link?
+      def has_no_next_topic_link?
         has_no_css?(SELECTOR)
       end
     end

@@ -28,7 +28,7 @@ RSpec.describe "Navigate to the next topic" do
 
     expect(page).to have_current_path(next_topic.relative_url)
     expect(topic_page).to have_topic_title(next_topic.title)
-    expect(next_button).to have_no_link
+    expect(next_button).to have_no_next_topic_link
   end
 
   it "opens the next unread post from compact navigation when configured", mobile: true do
@@ -57,18 +57,18 @@ RSpec.describe "Navigate to the next topic" do
 
     category_page.visit(category)
     topic_list.visit_topic(first_topic)
-    expect(next_button).to have_link
+    expect(next_button).to have_next_topic_link
 
     category_page.visit(another_category)
     topic_list.visit_topic(another_topic)
     expect(topic_page).to have_topic_title(another_topic.title)
-    expect(next_button).to have_no_link
+    expect(next_button).to have_no_next_topic_link
   end
 
   it "hides the link when opening a topic directly" do
     topic_page.visit_topic(first_topic)
 
     expect(topic_page).to have_topic_title(first_topic.title)
-    expect(next_button).to have_no_link
+    expect(next_button).to have_no_next_topic_link
   end
 end
