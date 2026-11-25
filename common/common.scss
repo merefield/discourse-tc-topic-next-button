@@ -1,13 +1,13 @@
+.topic-next-button.--footer {
+  display: flex;
+  inline-size: fit-content;
+  margin-block-start: var(--space-3);
+  margin-inline-start: auto;
+}
+
 .topic-navigation > .topic-next-button {
   order: 1;
   margin-inline-start: var(--space-1);
-}
-
-.topic-navigation.with-timeline:not(.topic-progress-expanded):has(
-    > .topic-next-button
-  ) {
-  display: flex;
-  align-items: flex-start;
 }
 
 .topic-navigation.topic-progress-expanded > .topic-next-button {
